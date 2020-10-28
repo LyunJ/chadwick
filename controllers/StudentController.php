@@ -48,7 +48,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($id) > 20){
+            if(strlen($id) > 20){
                 badRequest($res,"body","id",$id,"LengthExceed");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
@@ -63,7 +63,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($password) > 30){
+            if(strlen($password) > 30){
                 badRequest($res,"body","password",$password,"LengthExceed");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
@@ -83,7 +83,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($name) > 45){
+            if(strlen($name) > 45){
                 badRequest($res,"body","name",$name,"LengthExceed");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
@@ -113,7 +113,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($className) > 1){
+            if(strlen($className) > 1){
                 badRequest($res,"body","className",$className,"LengthExceed");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
@@ -129,7 +129,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($bday) > 10){
+            if(strlen($bday) > 10){
                 badRequest($res,"body","bday",$bday,"LengthExceed");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
@@ -166,7 +166,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($id) > 20){
+            if(strlen($id) > 20){
                 badRequest($res,'body','id',$id,'Length Exceed');
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
@@ -181,7 +181,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(count($password) > 30){
+            if(strlen($password) > 30){
                 badRequest($res,'body','password',$password,'Length Exceed');
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
