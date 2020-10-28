@@ -148,6 +148,56 @@ try {
 
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
+
+        case "createStudentJWT":
+            http_response_code(200);
+            $id = $req->id;
+            $id = isset($id) ? $id : null;
+            $password = $req->password;
+            $password = isset($password) ? $password : null;
+
+            if(gettype($id) != 'string'){
+                badRequest($res,'body','id',$id,'TypeError');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(is_null($id)){
+                badRequest($res,'body','id',$id,'Null');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(count($id) > 20){
+                badRequest($res,'body','id',$id,'Length Exceed');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(gettype($password) != 'string'){
+                badRequest($res,'body','password',$password,'TypeError');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(is_null($password)){
+                badRequest($res,'body','password',$password,'Null');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(count($password) > 30){
+                badRequest($res,'body','password',$password,'Length Exceed');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(isValidStudent($id,$password) != 1){
+                notFound($res,'body',['id','password'],[$id,$password],'로그인 실패');
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            $res->jwt = getJWToken($id,$password,JWT_SECRET_KEY);
+            $res->isSuccess = true;
+            $res->code = 200;
+            $res->message = "학생 로그인 성공";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            break;
     }
 } catch (\Exception $e) {
     return getSQLErrorException($errorLogs, $e, $req);

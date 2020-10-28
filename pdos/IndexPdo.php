@@ -79,3 +79,18 @@ function isValidTeacher($id, $password)
 
     return intval($res[0]["exist"]);
 }
+
+function isValidStudent($id,$password){
+    $pdo = pdoSqlConnect();
+    $query = "SELECT EXISTS(SELECT * FROM students WHERE id = ? and password = ? and isDeleted = 'N') AS exist;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$id, $password]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return intval($res[0]["exist"]);
+}

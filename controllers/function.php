@@ -206,10 +206,20 @@ function isValidGrade($grade){
 
 # Valid Functions End
 
+# HTTP STATUS RESPONSE START
 function badRequest(&$res,$location,$param,$value,$message){
     $res->isSuccess = false;
     $res->code = 400;
     $res->status = 'Bad Request';
+    $res->location = $location;
+    $res->param = $param;
+    $res->value = $value;
+    $res->message = $message;
+}
+function notFound(&$res,$location,$param,$value,$message){
+    $res->isSuccess = false;
+    $res->code = 404;
+    $res->status = 'Not Found';
     $res->location = $location;
     $res->param = $param;
     $res->value = $value;
