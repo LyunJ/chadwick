@@ -2,6 +2,7 @@
 require './pdos/DatabasePdo.php';
 require './pdos/IndexPdo.php';
 require './pdos/ReviewPdo.php';
+
 require './vendor/autoload.php';
 
 use \Monolog\Logger as Logger;
@@ -24,6 +25,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST','/review',['ReviewController','createReview']);
     $r->addRoute('PATCH','/review',['ReviewController','modifyReview']);
     $r->addRoute('GET','/review',['ReviewController','getReview']);
+
+
+    $r->addRoute('POST','/student',['StudentController','createStudent']);
 //    $r->addRoute('GET', '/test/{testNo}', ['IndexController', 'testDetail']);
 //    $r->addRoute('POST', '/test', ['IndexController', 'testPost']);
 //    $r->addRoute('GET', '/jwt', ['MainController', 'validateJwt']);
@@ -90,6 +94,10 @@ switch ($routeInfo[0]) {
             case 'ReviewController':
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
                 require './controllers/ReviewController.php';
+                break;
+            case 'StudentController':
+                $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
+                require './controllers/StudentController.php';
                 break;
             /*case 'ProductController':
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];

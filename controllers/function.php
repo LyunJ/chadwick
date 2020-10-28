@@ -174,6 +174,7 @@ function getLogs($path)
     fclose($fp);
 }
 
+# Valid Functions Start
 function isValidPassword($password) {
     if(preg_match("/^[0-9a-zA-Z!@#$%^&*?_~-]{6,}+$/", $password)) {
         return 1;
@@ -193,4 +194,24 @@ function isValidScore($score) {
         return 1;
     }
     return 0;
+}
+
+function isValidGrade($grade){
+    if($grade >= 0 and $grade <= 12){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+# Valid Functions End
+
+function badRequest(&$res,$location,$param,$value,$message){
+    $res->isSuccess = false;
+    $res->code = 400;
+    $res->status = 'Bad Request';
+    $res->location = $location;
+    $res->param = $param;
+    $res->value = $value;
+    $res->message = $message;
 }
