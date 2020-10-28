@@ -1,0 +1,356 @@
+<?php
+require 'function.php';
+
+const JWT_SECRET_KEY = "TEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEYTEST_KEY";
+
+$res = (object)Array();
+header('Content-Type: json');
+$req = json_decode(file_get_contents("php://input"));
+try {
+    addAccessLogs($accessLogs, $req);
+    switch ($handler) {
+        case "index":
+            echo "API Server";
+            break;
+        case "ACCESS_LOGS":
+            //            header('content-type text/html charset=utf-8');
+            header('Content-Type: text/html; charset=UTF-8');
+            getLogs("./logs/access.log");
+            break;
+        case "ERROR_LOGS":
+            //            header('content-type text/html charset=utf-8');
+            header('Content-Type: text/html; charset=UTF-8');
+            getLogs("./logs/errors.log");
+            break;
+
+        case "createReview":
+            http_response_code(200);
+
+            $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
+            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
+                $res->isSuccess = FALSE;
+                $res->code = 451;
+                $res->message = "존재하지 않은 studentIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                addErrorLogs($errorLogs, $res, $req);
+                return;
+            }
+
+            $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
+
+            $studentIdx = $data->id;
+            $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $score = isset($req->score) ? $req->score : null;
+            $content = isset($req->content) ? $req->content : null;
+
+            if ($studentIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 411;
+                $res->message = "studentIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($menuIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 412;
+                $res->message = "menuIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($score == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 413;
+                $res->message = "score가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($content == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 414;
+                $res->message = "content가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if (!is_integer($studentIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 421;
+                $res->message = "studentIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_integer($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 422;
+                $res->message = "menuIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_float($score)) {
+                $res->isSuccess = FALSE;
+                $res->code = 423;
+                $res->message = "score는 Float 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_string($content)) {
+                $res->isSuccess = FALSE;
+                $res->code = 424;
+                $res->message = "content는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isValidScore($score)) {
+                $res->isSuccess = FALSE;
+                $res->code = 441;
+                $res->message = "score는 0~5 사이 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isMenuExists($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 452;
+                $res->message = "존재하지 않은 menuIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(isReviewExists($studentIdx, $menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 461;
+                $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 이미 존재 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            createReview($menuIdx, $studentIdx, $score, $content);
+            $res->isSuccess = TRUE;
+            $res->code = 200;
+            $res->message = "영양사/교직원 회원가입 성공";
+            echo json_encode($res, JSON_NUMERIC_CHECK);
+            break;
+
+        case "modifyReview":
+            http_response_code(200);
+
+            $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
+            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
+                $res->isSuccess = FALSE;
+                $res->code = 451;
+                $res->message = "존재하지 않은 studentIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                addErrorLogs($errorLogs, $res, $req);
+                return;
+            }
+
+            $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
+
+            $studentIdx = $data->id;
+            $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $score = isset($req->score) ? $req->score : null;
+            $content = isset($req->content) ? $req->content : null;
+
+            if ($studentIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 411;
+                $res->message = "studentIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($menuIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 412;
+                $res->message = "menuIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($score == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 413;
+                $res->message = "score가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($content == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 414;
+                $res->message = "content가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if (!is_integer($studentIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 421;
+                $res->message = "studentIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_integer($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 422;
+                $res->message = "menuIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_float($score)) {
+                $res->isSuccess = FALSE;
+                $res->code = 423;
+                $res->message = "score는 Float 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_string($content)) {
+                $res->isSuccess = FALSE;
+                $res->code = 424;
+                $res->message = "content는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isValidScore($score)) {
+                $res->isSuccess = FALSE;
+                $res->code = 441;
+                $res->message = "score는 0~5 사이 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isMenuExists($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 452;
+                $res->message = "존재하지 않은 menuIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isReviewExists($studentIdx, $menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 453;
+                $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 이미 존재 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            modifyReview($menuIdx, $studentIdx, $score, $content);
+            $res->isSuccess = TRUE;
+            $res->code = 200;
+            $res->message = "리뷰 수정 성공";
+            echo json_encode($res, JSON_NUMERIC_CHECK);
+            break;
+
+        case "getReview":
+            http_response_code(200);
+
+            $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
+            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
+                $res->isSuccess = FALSE;
+                $res->code = 451;
+                $res->message = "존재하지 않은 studentIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                addErrorLogs($errorLogs, $res, $req);
+                return;
+            }
+
+            $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
+
+            $studentIdx = $data->id;
+
+            $menuIdx = $_GET["menuIdx"];
+            $menuIdx = isset($menuIdx) ? intval($menuIdx) : null;
+            $date = $_GET["date"];
+            $date = isset($date) ? intval($date) : null;
+
+            if ($studentIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 411;
+                $res->message = "studentIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($menuIdx == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 412;
+                $res->message = "menuIdx가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($date == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 413;
+                $res->message = "date가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_integer($studentIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 421;
+                $res->message = "studentIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_integer($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 422;
+                $res->message = "menuIdx는 Int 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if (!is_string($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 423;
+                $res->message = "content는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isValidDate($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 451;
+                $res->message = "date는 YYYY-MM-DD 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isMenuExists($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 452;
+                $res->message = "존재하지 않은 menuIdx 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(!isDateExists($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 453;
+                $res->message = "존재하지 않은 date 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(!isMenuExistsByDate($menuIdx, $date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 454;
+                $res->message = "date에 menuIdx가 존재하지 않습니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            if(!isReviewExistsByMenu($menuIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 481;
+                $res->message = "조회 할 review가 없습니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+
+            $res->rslt = getReview($menuIdx, $studentIdx, $date);
+            $res->isSuccess = TRUE;
+            $res->code = 200;
+            $res->message = "리뷰 수정 성공";
+            echo json_encode($res, JSON_NUMERIC_CHECK);
+            break;
+    }
+} catch (\Exception $e) {
+    return getSQLErrorException($errorLogs, $e, $req);
+}
