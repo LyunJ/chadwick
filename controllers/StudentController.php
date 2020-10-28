@@ -98,7 +98,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(isValidGrade($grade)){
+            if(isValidGrade($grade) != 1){
                 badRequest($res,"body","grade",$grade,"존재하지 않는 학년");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
