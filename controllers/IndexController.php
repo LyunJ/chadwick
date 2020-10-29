@@ -139,7 +139,7 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if (!codeUsed($code)) {
+            if (codeUsed($code)) {
                 $res->isSuccess = FALSE;
                 $res->code = 461;
                 $res->message = "이미 사용 된 code 입니다";
@@ -198,7 +198,7 @@ try {
                 return;
             }
 
-            $jwt = getJWToken($id, $password, JWT_SECRET_KEY);
+            $res->jwt = getJWToken($id, $password, JWT_SECRET_KEY);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "영양사/교직원 로그인 성공";
