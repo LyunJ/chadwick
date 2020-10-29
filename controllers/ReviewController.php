@@ -259,8 +259,8 @@ try {
             $studentIdx = getStudentIdx($data->id, $data->pw);
             $menuIdx = $_GET["menuIdx"];
             $menuIdx = isset($menuIdx) ? intval($menuIdx) : null;
-            $date = $_GET["date"];
-            $date = isset($date) ? intval($date) : null;
+//            $date = $_GET["date"];
+//            $date = isset($date) ? intval($date) : null;
 
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
@@ -276,13 +276,13 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if ($date == null) {
-                $res->isSuccess = FALSE;
-                $res->code = 413;
-                $res->message = "date가 null 입니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
+//            if ($date == null) {
+//                $res->isSuccess = FALSE;
+//                $res->code = 413;
+//                $res->message = "date가 null 입니다";
+//                echo json_encode($res, JSON_NUMERIC_CHECK);
+//                break;
+//            }
             if (!is_integer($studentIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 421;
@@ -297,21 +297,21 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if (!is_string($date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 423;
-                $res->message = "content는 String 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
+//            if (!is_string($date)) {
+//                $res->isSuccess = FALSE;
+//                $res->code = 423;
+//                $res->message = "content는 String 이여야 합니다";
+//                echo json_encode($res, JSON_NUMERIC_CHECK);
+//                break;
+//            }
 
-            if(!isValidDate($date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 451;
-                $res->message = "date는 YYYY-MM-DD 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
+//            if(!isValidDate($date)) {
+//                $res->isSuccess = FALSE;
+//                $res->code = 451;
+//                $res->message = "date는 YYYY-MM-DD 이여야 합니다";
+//                echo json_encode($res, JSON_NUMERIC_CHECK);
+//                break;
+//            }
 
             if(!isMenuExists($menuIdx)) {
                 $res->isSuccess = FALSE;
@@ -320,20 +320,20 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(!isDateExists($date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 453;
-                $res->message = "존재하지 않은 date 입니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
-            if(!isMenuExistsByDate($menuIdx, $date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 454;
-                $res->message = "date에 menuIdx가 존재하지 않습니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
+//            if(!isDateExists($date)) {
+//                $res->isSuccess = FALSE;
+//                $res->code = 453;
+//                $res->message = "존재하지 않은 date 입니다";
+//                echo json_encode($res, JSON_NUMERIC_CHECK);
+//                break;
+//            }
+//            if(!isMenuExistsByDate($menuIdx, $date)) {
+//                $res->isSuccess = FALSE;
+//                $res->code = 454;
+//                $res->message = "date에 menuIdx가 존재하지 않습니다";
+//                echo json_encode($res, JSON_NUMERIC_CHECK);
+//                break;
+//            }
 
             if(!isReviewExistsByMenu($menuIdx)) {
                 $res->isSuccess = FALSE;
