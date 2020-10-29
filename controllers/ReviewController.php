@@ -30,7 +30,7 @@ try {
             if (!isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
-                $res->message = "존재하지 않은 studentIdx 입니다";
+                $res->message = "존재하지 않은 student 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 addErrorLogs($errorLogs, $res, $req);
                 return;
@@ -38,7 +38,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = $data->id;
+            $studentIdx = getStudentIdx($data->id, $data->pw);
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
