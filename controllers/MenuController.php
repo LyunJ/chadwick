@@ -23,7 +23,7 @@ try{
             header('Content-Type: text/html; charset=UTF-8');
             getLogs("./logs/errors.log");
             break;
-        case "addMenus":
+        case "addMenu":
             http_response_code(200);
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
 
