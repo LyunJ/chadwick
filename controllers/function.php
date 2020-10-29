@@ -17,16 +17,7 @@ function getSQLErrorException($errorLogs, $e, $req)
     addErrorLogs($errorLogs, $res, $req);
 }
 
-function isValidHeader($jwt, $key)
-{
-    try {
-        $data = getDataByJWToken($jwt, $key);
-        //로그인 함수 직접 구현 요함
-        return isValidUser($data->id, $data->pw);
-    } catch (\Exception $e) {
-        return false;
-    }
-}
+
 
 function sendFcm($fcmToken, $data, $key, $deviceType)
 {
@@ -175,6 +166,34 @@ function getLogs($path)
 }
 
 # Valid Functions Start
+function isValidHeader($jwt, $key)
+{
+    try {
+        $data = getDataByJWToken($jwt, $key);
+        //로그인 함수 직접 구현 요함
+        if(isValidStudent($data->id, $data->pw) == 1 or isValidTeacher($data->id,$data->pw) == 1){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (\Exception $e) {
+        return false;
+    }
+}
+function isValidTeacherJWT($jwt, $key)
+{
+    try {
+        $data = getDataByJWToken($jwt, $key);
+        //로그인 함수 직접 구현 요함
+        if(isValidTeacher($data->id,$data->pw) == 1){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (\Exception $e) {
+        return false;
+    }
+}
 function isValidPassword($password) {
     if(preg_match("/^[0-9a-zA-Z!@#$%^&*?_~-]{6,}+$/", $password)) {
         return 1;
@@ -204,6 +223,14 @@ function isValidGrade($grade){
     }
 }
 
+function isValidFoodType($foodType){
+    if($foodType == 'K' or $foodType == 'I' or $foodType == 'N'){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 # Valid Functions End
 
 # HTTP STATUS RESPONSE START
@@ -211,6 +238,15 @@ function badRequest(&$res,$location,$param,$value,$message){
     $res->isSuccess = false;
     $res->code = 400;
     $res->status = 'Bad Request';
+    $res->location = $location;
+    $res->param = $param;
+    $res->value = $value;
+    $res->message = $message;
+}
+function forbidden(&$res,$location,$param,$value,$message){
+    $res->isSuccess = false;
+    $res->code = 403;
+    $res->status = 'Forbidden';
     $res->location = $location;
     $res->param = $param;
     $res->value = $value;
@@ -225,3 +261,4 @@ function notFound(&$res,$location,$param,$value,$message){
     $res->value = $value;
     $res->message = $message;
 }
+# HTTP STATUS RESPONSE END
