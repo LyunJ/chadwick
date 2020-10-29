@@ -17,12 +17,12 @@ function getSQLErrorException($errorLogs, $e, $req)
     addErrorLogs($errorLogs, $res, $req);
 }
 
-function isValidHeader($jwt, $key)
+function isValidStudentHeader($jwt, $key)
 {
     try {
         $data = getDataByJWToken($jwt, $key);
         //로그인 함수 직접 구현 요함
-        return isValidUser($data->id, $data->pw);
+        return isValidStudent($data->id, $data->pw);
     } catch (\Exception $e) {
         return false;
     }
