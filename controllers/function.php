@@ -86,7 +86,7 @@ function getJWToken($id, $pw, $secretKey)
 
     return $jwt = JWT::encode($data, $secretKey);
 
-//    echo "encoded jwt: " . $jwt . "n";
+    echo "encoded jwt: " . $jwt . "n";
 //    $decoded = JWT::decode($jwt, $secretKey, array('HS256'))
 //    print_r($decoded);
 }
