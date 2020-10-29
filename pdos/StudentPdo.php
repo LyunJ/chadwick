@@ -12,7 +12,6 @@ function getStudentIdx($id, $pw) {
     $st = null;
     $pdo = null;
 
-    echo $res[0];
     return intval($res[0]);
 }
 function createStudent($id,$password,$name,$grade,$className,$bday){

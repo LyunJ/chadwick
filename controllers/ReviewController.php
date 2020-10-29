@@ -38,11 +38,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            echo $data->id;
-            echo $data->pw;
             $studentIdx = getStudentIdx($data->id, $data->pw);
-
-            echo $studentIdx;
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
