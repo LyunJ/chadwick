@@ -110,3 +110,29 @@ function isReviewExistsByMenu($menuIdx)
 
     return intval($res[0]["exist"]);
 }
+
+function getReview($menuIdx)
+{
+    $pdo = pdoSqlConnect();
+    $query = "select reviewIdx, score, content,
+                       case
+                           when (timestampdiff(hour, createdAt, now()) > 24 )
+                               then concat(YEAR(createdAt), '.', MONTH(createdAt), '.', DAY(createdAt))
+                           when (timestampdiff(minute , createdAt, now()) > 60)
+                               then concat(timestampdiff(hour, createdAt, now()),'시간전')
+                           when (timestampdiff(second, createdAt, now()) > 60)
+                               then concat(timestampdiff(minute , createdAt, now()),'분전')
+                           end as createdAt
+                from review
+                where menuIdx = ?;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$menuIdx]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return $res[0]["exist"];
+}

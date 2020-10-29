@@ -128,7 +128,7 @@ try {
             createReview($menuIdx, $studentIdx, $score, $content);
             $res->isSuccess = TRUE;
             $res->code = 200;
-            $res->message = "영양사/교직원 회원가입 성공";
+            $res->message = "리뷰 작성 성공";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
@@ -139,7 +139,7 @@ try {
             if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
-                $res->message = "존재하지 않은 studentIdx 입니다";
+                $res->message = "존재하지 않은 student 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 addErrorLogs($errorLogs, $res, $req);
                 return;
@@ -147,7 +147,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = $data->id;
+            $studentIdx = getStudentIdx($data->id, $data->pw);
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
@@ -256,8 +256,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = $data->id;
-
+            $studentIdx = getStudentIdx($data->id, $data->pw);
             $menuIdx = $_GET["menuIdx"];
             $menuIdx = isset($menuIdx) ? intval($menuIdx) : null;
             $date = $_GET["date"];
@@ -344,10 +343,10 @@ try {
                 break;
             }
 
-            $res->rslt = getReview($menuIdx, $studentIdx, $date);
+            $res->rslt = getReview($menuIdx);
             $res->isSuccess = TRUE;
             $res->code = 200;
-            $res->message = "리뷰 수정 성공";
+            $res->message = "리뷰 결과 조회 성공";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
     }
