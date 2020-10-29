@@ -80,7 +80,7 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(gettype($menuName) != 'list'){
+            if(gettype($menuName) != 'array'){
                 badRequest($res,"body","menuName",$menuName,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
