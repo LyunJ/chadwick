@@ -3,6 +3,7 @@ require './pdos/DatabasePdo.php';
 require './pdos/IndexPdo.php';
 require './pdos/ReviewPdo.php';
 require './pdos/StudentPdo.php';
+require './pdos/MenuPdo.php';
 require './vendor/autoload.php';
 
 use \Monolog\Logger as Logger;
@@ -29,6 +30,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('POST','/student',['StudentController','createStudent']);
     $r->addRoute('POST','/login/student',['StudentController','createStudentJWT']);
+    $r->addRoute('POST','/menu',['MenuController','addMenu']);
+
 //    $r->addRoute('GET', '/test/{testNo}', ['IndexController', 'testDetail']);
 //    $r->addRoute('POST', '/test', ['IndexController', 'testPost']);
 //    $r->addRoute('GET', '/jwt', ['MainController', 'validateJwt']);
@@ -99,6 +102,10 @@ switch ($routeInfo[0]) {
             case 'StudentController':
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
                 require './controllers/StudentController.php';
+                break;
+            case 'MenuController':
+                $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
+                require './controllers/MenuController.php';
                 break;
             /*case 'ProductController':
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];

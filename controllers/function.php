@@ -17,12 +17,12 @@ function getSQLErrorException($errorLogs, $e, $req)
     addErrorLogs($errorLogs, $res, $req);
 }
 
-function isValidStudentHeader($jwt, $key)
+function isValidHeader($jwt, $key)
 {
     try {
         $data = getDataByJWToken($jwt, $key);
         //로그인 함수 직접 구현 요함
-        return isValidStudent($data->id, $data->pw);
+        return isValidUser($data->id, $data->pw);
     } catch (\Exception $e) {
         return false;
     }
@@ -86,7 +86,7 @@ function getJWToken($id, $pw, $secretKey)
 
     return $jwt = JWT::encode($data, $secretKey);
 
-//    echo "encoded jwt: " . $jwt . "n";
+    echo "encoded jwt: " . $jwt . "n";
 //    $decoded = JWT::decode($jwt, $secretKey, array('HS256'))
 //    print_r($decoded);
 }

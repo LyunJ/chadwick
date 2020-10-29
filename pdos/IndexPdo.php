@@ -94,3 +94,18 @@ function isValidStudent($id,$password){
 
     return intval($res[0]["exist"]);
 }
+
+function isValidFoodType($foodIdx){
+    $pdo = pdoSqlConnect();
+    $query = "SELECT EXISTS(SELECT * FROM foodCategory WHERE categoryIdx = ?) AS exist;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$foodIdx]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return intval($res[0]["exist"]);
+}
