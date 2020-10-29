@@ -102,6 +102,10 @@ switch ($routeInfo[0]) {
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
                 require './controllers/StudentController.php';
                 break;
+            case 'MenuController':
+                $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
+                require './controllers/MenuController.php';
+                break;
             /*case 'ProductController':
                 $handler = $routeInfo[1][1]; $vars = $routeInfo[2];
                 require './controllers/ProductController.php';
