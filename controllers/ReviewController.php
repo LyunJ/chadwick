@@ -27,7 +27,7 @@ try {
             http_response_code(200);
 
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
+            if (!isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
                 $res->message = "존재하지 않은 studentIdx 입니다";
