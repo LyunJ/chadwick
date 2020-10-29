@@ -9,4 +9,5 @@ function addMenu($date,$foodIdx,$menuName){
         $st = $pdo -> prepare($query);
         $st -> execute([$foodIdx,$date,$menu]);
     }
+    $st = null; $pdo = null;
 }

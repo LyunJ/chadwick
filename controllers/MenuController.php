@@ -94,7 +94,8 @@ try{
             }
 
             addMenu($date,$foodIdx,$menuName);
-            $res->isSuccess = true;
+
+            $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "메뉴 등록 성공";
             json_encode($res,JSON_NUMERIC_CHECK);
