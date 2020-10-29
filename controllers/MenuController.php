@@ -35,8 +35,8 @@ try{
 
             $date = $req->date;
             $date = isset($date) ? $date : null;
-            $foodType = $req->foodType;
-            $foodType = isset($foodType) ? $foodType : null;
+            $foodIdx = $req->foodIdx;
+            $foodIdx = isset($foodIdx) ? $foodIdx : null;
             $menuName = $req->menuName;
             $menuName = isset($menuName) ? $menuName : null;
 
@@ -60,23 +60,18 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(gettype($foodType) != 'string'){
-                badRequest($res,"body","foodType",$foodType,"TypeError");
+            if(gettype($foodIdx) != 'integer'){
+                badRequest($res,"body","foodIdx",$foodIdx,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(is_null($foodType)){
-                badRequest($res,"body","foodType",$foodType,"Null");
+            if(is_null($foodIdx)){
+                badRequest($res,"body","foodIdx",$foodIdx,"Null");
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(strlen($foodType) > 1){
-                badRequest($res,"body","foodType",$foodType,"LengthExceed");
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
-            if(isValidFoodType($foodType) != 1){
-                badRequest($res,"body","foodType",$foodType,"정규 표현식 오류");
+            if(isValidFoodType($foodIdx) != 1){
+                badRequest($res,"body","foodIdx",$foodIdx,"존재하지 않는 foodIdx");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -98,7 +93,7 @@ try{
                 }
             }
 
-            addMenu($date,$foodType,$menuName);
+            addMenu($date,$foodIdx,$menuName);
             $res->isSuccess = true;
             $res->code = 200;
             $res->message = "메뉴 등록 성공";

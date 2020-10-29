@@ -223,14 +223,6 @@ function isValidGrade($grade){
     }
 }
 
-function isValidFoodType($foodType){
-    if($foodType == 'K' or $foodType == 'I' or $foodType == 'N'){
-        return 1;
-    }else{
-        return 0;
-    }
-}
-
 # Valid Functions End
 
 # HTTP STATUS RESPONSE START
