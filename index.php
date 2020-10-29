@@ -3,6 +3,7 @@ require './pdos/DatabasePdo.php';
 require './pdos/IndexPdo.php';
 require './pdos/ReviewPdo.php';
 require './pdos/StudentPdo.php';
+require './pdos/MenuPdo.php';
 require './vendor/autoload.php';
 
 use \Monolog\Logger as Logger;
