@@ -198,9 +198,7 @@ try {
                 return;
             }
 
-            $jwt = getJWToken($id, $password, JWT_SECRET_KEY);
-
-            $res->result->jwt = $jwt;
+            $res->jwt = getJWToken($id,$password,JWT_SECRET_KEY);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "영양사/교직원 로그인 성공";
