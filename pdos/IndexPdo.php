@@ -97,7 +97,7 @@ function isValidStudent($id,$password){
 
 function isValidFoodType($foodIdx){
     $pdo = pdoSqlConnect();
-    $query = "SELECT EXISTS(SELECT * FROM foodCategory WHERE categoryIdx = ? and isDeleted = 'N') AS exist;";
+    $query = "SELECT EXISTS(SELECT * FROM foodCategory WHERE categoryIdx = ?) AS exist;";
 
     $st = $pdo->prepare($query);
     $st->execute([$foodIdx]);
