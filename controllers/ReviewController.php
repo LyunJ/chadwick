@@ -229,7 +229,7 @@ try {
             if(!isReviewExists($studentIdx, $menuIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 453;
-                $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 이미 존재 합니다";
+                $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 존재하지 않습니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }

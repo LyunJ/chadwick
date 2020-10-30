@@ -68,12 +68,11 @@ function modifyReview($menuIdx, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "UPDATE review SET score = ? and content = ? WHERE studentIdx = ? and menuIdx = ?;";
+    $query = "UPDATE review SET score = $score and content = $content WHERE studentIdx = $studentIdx and menuIdx = $menuIdx;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$score, $content, $studentIdx, $menuIdx]);
+    $st->execute();
 
-    $recruitId = $pdo->lastInsertId();
     $st = null;
     $pdo = null;
 }
