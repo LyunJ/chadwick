@@ -68,7 +68,7 @@ function modifyReview($menuIdx, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "UPDATE review SET content = ?, score = ? WHERE studentIdx = ? and menuIdx = ?;";
+    $query = "UPDATE review SET score = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
 
     $st = $pdo->prepare($query);
     $st->execute([$score, $content, $studentIdx, $menuIdx]);
@@ -133,5 +133,5 @@ function getReview($menuIdx)
     $st = null;
     $pdo = null;
 
-    return $res[0]["exist"];
+    return $res[0];
 }
