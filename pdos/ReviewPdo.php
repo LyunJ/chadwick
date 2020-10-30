@@ -135,3 +135,19 @@ function getReview($menuIdx)
 
     return $res;
 }
+
+function getReviewTotal($menuIdx)
+{
+    $pdo = pdoSqlConnect();
+    $query = "select AVG(score) as totalScore from review where menuIdx = ? group by menuIdx;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$menuIdx]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return $res;
+}
