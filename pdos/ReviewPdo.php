@@ -149,5 +149,5 @@ function getReviewTotal($menuIdx)
     $st = null;
     $pdo = null;
 
-    return $res;
+    return $res[0];
 }
