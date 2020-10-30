@@ -452,7 +452,7 @@ try {
                 break;
             }
 
-            $res->reviewTotal = getReviewTotal($menuIdx);
+            $reviewTotal = getReviewTotal($menuIdx);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "리뷰 결과 조회 성공";
