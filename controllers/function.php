@@ -190,7 +190,7 @@ function isValidDate($bday) {
 }
 
 function isValidScore($score) {
-    if(preg_match("/^[0-5]\.[0-9]{0,1}/", $score)) {
+    if(preg_match("/^[0-5]\.{0,1}/", $score)) {
         return 1;
     }
     return 0;

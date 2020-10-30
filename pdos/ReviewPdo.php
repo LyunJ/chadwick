@@ -133,5 +133,5 @@ function getReview($menuIdx)
     $st = null;
     $pdo = null;
 
-    return $res[0];
+    return $res;
 }
