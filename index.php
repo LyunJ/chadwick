@@ -31,6 +31,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST','/student',['StudentController','createStudent']);
     $r->addRoute('POST','/login/student',['StudentController','createStudentJWT']);
     $r->addRoute('POST','/menu',['MenuController','addMenu']);
+    $r->addRoute('PATCH','/menu',['MenuController','editMenu']);
+    $r->addRoute('DELETE','/menu/{idx}',['MenuController','deleteMenu']);
+    $r->addRoute('GET','/menu',['MenuController','getMenu']);
 
 //    $r->addRoute('GET', '/test/{testNo}', ['IndexController', 'testDetail']);
 //    $r->addRoute('POST', '/test', ['IndexController', 'testPost']);

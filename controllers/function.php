@@ -28,6 +28,20 @@ function isValidStudentHeader($jwt, $key)
     }
 }
 
+function isValidTeacherJWT($jwt,$key){
+    try {
+        $data = getDataByJWToken($jwt, $key);
+        //로그인 함수 직접 구현 요함
+        if(isValidTeacher($data->id, $data->pw) == 1){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (\Exception $e) {
+        return false;
+    }
+}
+
 function sendFcm($fcmToken, $data, $key, $deviceType)
 {
     $url = 'https://fcm.googleapis.com/fcm/send';
@@ -220,6 +234,15 @@ function notFound(&$res,$location,$param,$value,$message){
     $res->isSuccess = false;
     $res->code = 404;
     $res->status = 'Not Found';
+    $res->location = $location;
+    $res->param = $param;
+    $res->value = $value;
+    $res->message = $message;
+}
+function forbidden(&$res,$location,$param,$value,$message){
+    $res->isSuccess = false;
+    $res->code = 403;
+    $res->status = 'Forbidden';
     $res->location = $location;
     $res->param = $param;
     $res->value = $value;
