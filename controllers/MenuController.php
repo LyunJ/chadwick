@@ -174,17 +174,17 @@ try{
                     break;
                 }
                 if(gettype($menuName) != 'string'){
-                    badRequest($res,"body","$menuName",$menuName,"TypeError");
+                    badRequest($res,"body","menuName",$menuName,"TypeError");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
                 if(is_null($menuName)){
-                    badRequest($res,"body","$menuName",$menuName,"Null");
+                    badRequest($res,"body","menuName",$menuName,"Null");
                     echo json_encode($res,JSON_NUMERIC_CHECK);
                     break;
                 }
                 if(strlen($menuName) > 20){
-                    badRequest($res,"body","$menuName",$menuName,"LengthExceed");
+                    badRequest($res,"body","menuName",$menuName,"LengthExceed");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
