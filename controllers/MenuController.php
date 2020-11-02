@@ -37,8 +37,8 @@ try{
             $date = isset($date) ? $date : null;
             $foodIdx = $req->foodIdx;
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
-            $menuName = $req->menuName;
-            $menuName = isset($menuName) ? $menuName : null;
+            $menuList = $req->menuList;
+            $menuList = isset($menuList) ? $menuList : null;
 
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
@@ -75,25 +75,25 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(gettype($menuName) != 'array'){
-                badRequest($res,"body","menuName",$menuName,"TypeError");
+            if(gettype($menuList) != 'array'){
+                badRequest($res,"body","menuList",$menuList,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(is_null($menuName)){
-                badRequest($res,"body","menuName",$menuName,"Null");
+            if(is_null($menuList)){
+                badRequest($res,"body","menuList",$menuList,"Null");
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            foreach($menuName as $menu){
+            foreach($menuList as $menu){
                 if(strlen($menu) > 20){
-                    badRequest($res,"body","menuName",$menu,"LengthExceed");
+                    badRequest($res,"body","menuList",$menu,"LengthExceed");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
             }
 
-            addMenu($date,$foodIdx,$menuName);
+            addMenu($date,$foodIdx,$menuList);
 
             $res->isSuccess = TRUE;
             $res->code = 200;
