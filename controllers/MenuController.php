@@ -204,26 +204,49 @@ try{
                 break;
             }
 
-            $menuIdx = $vars["idx"];
-            $menuIdx = isset($menuIdx) ? $menuIdx : null;
+            $date = $req->date;
+            $date = isset($date) ? $date : null;
+            $foodIdx = $req->foodIdx;
+            $foodIdx = isset($foodIdx) ? $foodIdx : null;
 
-            if(gettype($menuIdx) != 'integer'){
-                badRequest($res,"parameter","menuIdx",$menuIdx,"TypeError");
+
+            if(gettype($date) != 'string'){
+                badRequest($res,"body","date",$date,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if(is_null($menuIdx)){
-                badRequest($res,"parameter","menuIdx",$menuIdx,"Null");
+            if(is_null($date)){
+                badRequest($res,"body","date",$date,"Null");
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            if(isValidMenuIdx($menuIdx) != 1){
-                notFound($res,'parameter','menuIdx',$menuIdx,"존재하지 않는 메뉴idx입니다");
+            if(strlen($date) > 10){
+                badRequest($res,"body","date",$date,"LengthExceed");
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(isValidDate($date) != 1){
+                badRequest($res,"body","date",$date,"정규 표현식 오류");
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(gettype($foodIdx) != 'integer'){
+                badRequest($res,"body","foodIdx",$foodIdx,"TypeError");
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(is_null($foodIdx)){
+                badRequest($res,"body","foodIdx",$foodIdx,"Null");
                 echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(isValidFoodType($foodIdx) != 1){
+                badRequest($res,"body","foodIdx",$foodIdx,"존재하지 않는 foodIdx");
+                echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
 
-            deleteMenu($menuIdx);
+            deleteMenu($date,$foodIdx);
             $res->isSuccess = true;
             $res->code = 200;
             $res->message = "메뉴 삭제 성공";

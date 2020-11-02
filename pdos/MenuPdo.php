@@ -1,36 +1,53 @@
 <?php
 
-function addMenu($date,$foodIdx,$menuName){
+function addMenu($date,$foodIdx,$menuList){
     $pdo = pdoSqlConnect();
-    $query = "insert into menu (foodCategoryIdx,date,menuName) values (?,?,?)";
-
-    $date = date('Y-m-d',strtotime($date));
-    foreach ($menuName as $menu){
+    foreach ($menuList as $menu){
+        $query = "select menuIdx from menu where menuName = ?";
         $st = $pdo -> prepare($query);
-        $st -> execute([$foodIdx,$date,$menu]);
+        $st -> execute([$menu]);
+        $st ->setFetchMode(PDO::FETCH_ASSOC);
+        $res = $st->fetchAll();
+
+        $menuIdx = $res[0]['menuIdx'];
+
+        if($menuIdx > 0){
+            $query = "insert into MenuTable (foodCategoryIdx,date,menuIdx) values (?,?,?)";
+
+            $date = date('Y-m-d',strtotime($date));
+            $st = $pdo -> prepare($query);
+            $st -> execute([$foodIdx,$date,$menuIdx]);
+
+        }else{
+            $query = "insert into menu (menuName) values (?)";
+
+            $st = $pdo -> prepare($query);
+            $st -> execute([$menu]);
+
+            $createdMenuIdx = $pdo -> lastInsertId();
+
+            $query = "insert into MenuTable (menuIdx,foodCategoryIdx,date) values (?,?,?)";
+            $date = date('Y-m-d',strtotime($date));
+            $st = $pdo -> prepare($query);
+            $st -> execute([$createdMenuIdx,$foodIdx,$date]);
+        }
     }
-    $st = null; $pdo = null;
+    $st = null;
+    $pdo = null;
 }
 
 function editMenu($date,$foodIdx,$menuList){
-    $pdo = pdoSqlConnect();
-    $query = "update menu set menuName = ? where date = ? and menuIdx = ? and foodCategoryIdx = ?";
-
-    $date = date('Y-m-d',strtotime($date));
-    foreach($menuList as $row){
-        $menuIdx = $row["menuIdx"];
-        $menuName = $row["menuName"];
-
-        $st = $pdo->prepare($query);
-        $st->execute([$menuName,$date,$menuIdx,$foodIdx]);
-    }
+    deleteMenu($date,$foodIdx);
+    addMenu($date,$foodIdx,$menuList);
 }
 
-function deleteMenu($menuIdx){
+function deleteMenu($date,$foodIdx){
     $pdo = pdoSqlConnect();
-    $query = "delete from menu where menuIdx = ?";
+    $query = "delete from MenuTable where date = ? and foodCategoryIdx = ?";
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx]);
+    $st->execute([$date,$foodIdx]);
+    $st = null;
+    $pdo = null;
 }
 
 function getMenu($date,$foodIdx){
