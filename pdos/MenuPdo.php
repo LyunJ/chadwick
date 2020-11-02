@@ -71,6 +71,8 @@ function editMenu($date,$foodIdx,$menuList){
             $st -> execute([$createdMenuIdx,$foodIdx,$date]);
         }
     }
+    $st = null;
+    $pdo = null;
 }
 
 function deleteMenu($date,$foodIdx){
