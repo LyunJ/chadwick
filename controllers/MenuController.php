@@ -192,7 +192,7 @@ try{
             editMenu($date,$foodIdx,$menuList);
             $res->isSuccess = true;
             $res->code = 200;
-            $res->message = "메뉴 등록 성공";
+            $res->message = "메뉴 수정 성공";
             echo json_encode($res,JSON_NUMERIC_CHECK);
             break;
         case "deleteMenu":
