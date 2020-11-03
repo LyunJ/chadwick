@@ -95,5 +95,5 @@ function getMenu($date,$foodIdx){
     $st = null;
     $pdo = null;
 
-    return $res[0]['menuName'];
+    return json_decode($res[0]['menuName'],true);
 }
