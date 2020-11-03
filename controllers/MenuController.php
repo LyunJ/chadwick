@@ -300,7 +300,7 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            $res -> result = getMenu($date,$foodIdx);
+            $res -> result -> menuList = getMenu($date,$foodIdx);
             $res -> isSuccess = true;
             $res -> code = 200;
             $res -> message = "메뉴 조회 성공";

@@ -86,4 +86,14 @@ function deleteMenu($date,$foodIdx){
 
 function getMenu($date,$foodIdx){
     $pdo = pdoSqlConnect();
+    $query = "select json_arrayagg(menu.menuName) as menuName from MenuTable left outer join menu on MenuTable.menuIdx = menu.menuIdx where MenuTable.date = ? and MenuTable.foodCategoryIdx = ? group by foodCategoryIdx, date";
+    $st = $pdo->prepare($query);
+    $st -> execute([$date,$foodIdx]);
+    $st -> setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st -> fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return $res[0]['menuName'];
 }
