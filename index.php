@@ -27,6 +27,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('PATCH','/review',['ReviewController','modifyReview']);
     $r->addRoute('GET','/review',['ReviewController','getReview']);
     $r->addRoute('GET','/review/total',['ReviewController','getReviewTotal']);
+    $r->addRoute('GET','/test',['ReviewController','getReviewTest']);
 
     $r->addRoute('POST','/student',['StudentController','createStudent']);
     $r->addRoute('POST','/login/student',['StudentController','createStudentJWT']);
