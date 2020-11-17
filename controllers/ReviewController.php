@@ -118,6 +118,8 @@ try {
             }
 
             if(isReviewExists($studentIdx, $menuIdx)) {
+                $res->dataId = $data->id;
+                $res->dataPwd = $data->pw;
                 $res->studentIdx = $studentIdx;
                 $res->isReview = isReviewExists($studentIdx, $menuIdx);
                 $res->isSuccess = FALSE;
