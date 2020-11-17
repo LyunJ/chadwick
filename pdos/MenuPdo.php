@@ -80,7 +80,7 @@ function editMenu($date,$foodIdx,$menuList){
 
 function deleteMenu($date,$foodIdx){
     $pdo = pdoSqlConnect();
-    $query = "delete from MenuTable where date = ? and foodCategoryIdx = ?";
+    $query = "update MenuTable set isDeleted = 'Y' where date = ? and foodCategoryIdx = ?";
     $st = $pdo->prepare($query);
     $st->execute([$date,$foodIdx]);
     $st = null;
@@ -89,7 +89,7 @@ function deleteMenu($date,$foodIdx){
 
 function getMenu($date,$foodIdx){
     $pdo = pdoSqlConnect();
-    $query = "select json_arrayagg(menu.menuName) as menuName from MenuTable left outer join menu on MenuTable.menuIdx = menu.menuIdx where MenuTable.date = ? and MenuTable.foodCategoryIdx = ? group by foodCategoryIdx, date";
+    $query = "select json_arrayagg(menu.menuName) as menuName from MenuTable left outer join menu on MenuTable.menuIdx = menu.menuIdx where MenuTable.date = ? and MenuTable.foodCategoryIdx = ? and MenuTable.isDeleted = 'N' group by foodCategoryIdx, date";
     $st = $pdo->prepare($query);
     $st -> execute([$date,$foodIdx]);
     $st -> setFetchMode(PDO::FETCH_ASSOC);

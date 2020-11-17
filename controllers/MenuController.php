@@ -38,7 +38,7 @@ try{
             $foodIdx = $req->foodIdx;
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             $menuList = $req->menuList;
-            $menuList = isset($menuList) ? $menuList : null;
+            $menuList = isset($menuList) ? array_unique($menuList) : null;
 
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
@@ -155,26 +155,8 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            echo "hello";
             foreach($menuList as $row){
-                $menuIdx = $row["menuIdx"];
                 $menuName = $row["menuName"];
-                echo "hello";
-                if(gettype($menuIdx) != 'integer'){
-                    badRequest($res,"body","menuIdx",$menuIdx,"TypeError");
-                    echo json_encode($res, JSON_NUMERIC_CHECK);
-                    break;
-                }
-                if(is_null($menuIdx)){
-                    badRequest($res,"body","menuIdx",$menuIdx,"Null");
-                    echo json_encode($res,JSON_NUMERIC_CHECK);
-                    break;
-                }
-                if(isValidMenuIdx($menuIdx) != 1){
-                    badRequest($res,"body","menuIdx",$menuIdx,"존재하지 않는 foodIdx");
-                    echo json_encode($res, JSON_NUMERIC_CHECK);
-                    break;
-                }
                 if(gettype($menuName) != 'string'){
                     badRequest($res,"body","menuName",$menuName,"TypeError");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
@@ -190,7 +172,6 @@ try{
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
-
             }
             editMenu($date,$foodIdx,$menuList);
             $res->isSuccess = TRUE;
