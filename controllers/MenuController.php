@@ -264,7 +264,7 @@ try{
             $date = $_GET["date"];
             $date = isset($date) ? $date : null;
             $foodIdx = $_GET["foodIdx"];
-            $foodIdx = isset($foodIdx) ? $foodIdx : null;
+            $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
