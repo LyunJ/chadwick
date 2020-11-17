@@ -193,6 +193,7 @@ try {
             }
 
             $res->jwt = getJWToken($id,$password,JWT_SECRET_KEY);
+            $res->studentIdx = getStudentIdx($id, $password);
             $res->isSuccess = true;
             $res->code = 200;
             $res->message = "학생 로그인 성공";
