@@ -38,7 +38,7 @@ try{
             $foodIdx = $req->foodIdx;
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             $menuList = $req->menuList;
-            $menuList = isset($menuList) ? $menuList : null;
+            $menuList = isset($menuList) ? array_unique($menuList) : null;
 
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
@@ -93,6 +93,7 @@ try{
                 }
             }
 
+
             addMenu($date,$foodIdx,$menuList);
 
             $res->isSuccess = TRUE;
@@ -116,7 +117,7 @@ try{
             $foodIdx = $req->foodIdx;
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             $menuList = $req->menuList;
-            $menuList = isset($menuList) ? $menuList : null;
+            $menuList = isset($menuList) ? array_unique($menuList) : null;
 
 
             if(gettype($date) != 'string'){
@@ -155,24 +156,7 @@ try{
                 break;
             }
             foreach($menuList as $row){
-                $menuIdx = $row["menuIdx"];
                 $menuName = $row["menuName"];
-
-                if(gettype($menuIdx) != 'integer'){
-                    badRequest($res,"body","menuIdx",$menuIdx,"TypeError");
-                    echo json_encode($res, JSON_NUMERIC_CHECK);
-                    break;
-                }
-                if(is_null($menuIdx)){
-                    badRequest($res,"body","menuIdx",$menuIdx,"Null");
-                    echo json_encode($res,JSON_NUMERIC_CHECK);
-                    break;
-                }
-                if(isValidMenuIdx($menuIdx) != 1){
-                    badRequest($res,"body","menuIdx",$menuIdx,"존재하지 않는 foodIdx");
-                    echo json_encode($res, JSON_NUMERIC_CHECK);
-                    break;
-                }
                 if(gettype($menuName) != 'string'){
                     badRequest($res,"body","menuName",$menuName,"TypeError");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
@@ -190,7 +174,7 @@ try{
                 }
             }
             editMenu($date,$foodIdx,$menuList);
-            $res->isSuccess = true;
+            $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "메뉴 수정 성공";
             echo json_encode($res,JSON_NUMERIC_CHECK);
@@ -255,16 +239,16 @@ try{
         case "getMenu":
             http_response_code(200);
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if(!isValidTeacherJWT($jwt,JWT_SECRET_KEY)){
+            if(!isValidTeacherJWT($jwt,JWT_SECRET_KEY) and isValidStudentHeader($jwt,JWT_SECRET_KEY) != 1){
                 forbidden($res,'header','x-access-token',$jwt,'인증된 사용자가 아닙니다');
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
 
-            $date = $req->date;
+            $date = $_GET["date"];
             $date = isset($date) ? $date : null;
-            $foodIdx = $req->foodIdx;
-            $foodIdx = isset($foodIdx) ? $foodIdx : null;
+            $foodIdx = $_GET["foodIdx"];
+            $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
                 echo json_encode($res, JSON_NUMERIC_CHECK);
