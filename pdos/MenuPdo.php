@@ -2,6 +2,9 @@
 
 function addMenu($date,$foodIdx,$menuList){
     $pdo = pdoSqlConnect();
+    $query = "delete from MenuTable where date = ? and foodCategoryIdx = ?";
+    $st = $pdo->prepare($query);
+    $st->execute([$date,$foodIdx]);
     foreach ($menuList as $menu){
         $query = "select menuIdx from menu where menuName = ?";
         $st = $pdo -> prepare($query);
@@ -97,3 +100,4 @@ function getMenu($date,$foodIdx){
 
     return json_decode($res[0]['menuName'],true);
 }
+
