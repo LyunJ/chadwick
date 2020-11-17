@@ -118,6 +118,8 @@ try {
             }
 
             if(isReviewExists($studentIdx, $menuIdx)) {
+                $res->studentIdx = $studentIdx;
+                $res->isReview = isReviewExists($studentIdx, $menuIdx);
                 $res->isSuccess = FALSE;
                 $res->code = 461;
                 $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 이미 존재 합니다";
