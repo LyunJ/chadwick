@@ -190,7 +190,7 @@ try{
                 }
             }
             editMenu($date,$foodIdx,$menuList);
-            $res->isSuccess = true;
+            $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "메뉴 수정 성공";
             echo json_encode($res,JSON_NUMERIC_CHECK);
@@ -261,9 +261,9 @@ try{
                 break;
             }
 
-            $date = $req->date;
+            $date = $vars["date"];
             $date = isset($date) ? $date : null;
-            $foodIdx = $req->foodIdx;
+            $foodIdx = $vars["foodIdx"];
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
