@@ -155,10 +155,11 @@ try{
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
+            echo "hello";
             foreach($menuList as $row){
                 $menuIdx = $row["menuIdx"];
                 $menuName = $row["menuName"];
-
+                echo "hello";
                 if(gettype($menuIdx) != 'integer'){
                     badRequest($res,"body","menuIdx",$menuIdx,"TypeError");
                     echo json_encode($res, JSON_NUMERIC_CHECK);
@@ -189,7 +190,7 @@ try{
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
-                echo "hello";
+
             }
             editMenu($date,$foodIdx,$menuList);
             $res->isSuccess = TRUE;
