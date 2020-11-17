@@ -239,7 +239,7 @@ try{
         case "getMenu":
             http_response_code(200);
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if(!isValidTeacherJWT($jwt,JWT_SECRET_KEY) or isValidStudentHeader($jwt,JWT_SECRET_KEY) != 1){
+            if(!isValidTeacherJWT($jwt,JWT_SECRET_KEY) and isValidStudentHeader($jwt,JWT_SECRET_KEY) != 1){
                 forbidden($res,'header','x-access-token',$jwt,'인증된 사용자가 아닙니다');
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
