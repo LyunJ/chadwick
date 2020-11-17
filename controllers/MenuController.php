@@ -261,9 +261,9 @@ try{
                 break;
             }
 
-            $date = $vars["date"];
+            $date = $_GET["date"];
             $date = isset($date) ? $date : null;
-            $foodIdx = $vars["foodIdx"];
+            $foodIdx = $_GET["foodIdx"];
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             if(gettype($date) != 'string'){
                 badRequest($res,"body","date",$date,"TypeError");
