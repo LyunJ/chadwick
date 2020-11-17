@@ -458,6 +458,7 @@ try {
             $res->message = "리뷰 결과 조회 성공";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
+
     }
 } catch (\Exception $e) {
     return getSQLErrorException($errorLogs, $e, $req);
