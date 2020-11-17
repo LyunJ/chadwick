@@ -117,7 +117,7 @@ try{
             $foodIdx = $req->foodIdx;
             $foodIdx = isset($foodIdx) ? $foodIdx : null;
             $menuList = $req->menuList;
-            $menuList = isset($menuList) ? $menuList : null;
+            $menuList = isset($menuList) ? array_unique($menuList) : null;
 
 
             if(gettype($date) != 'string'){
