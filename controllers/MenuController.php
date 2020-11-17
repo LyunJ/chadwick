@@ -189,6 +189,7 @@ try{
                     echo json_encode($res, JSON_NUMERIC_CHECK);
                     break;
                 }
+                echo "hello";
             }
             editMenu($date,$foodIdx,$menuList);
             $res->isSuccess = TRUE;
