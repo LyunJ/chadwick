@@ -38,7 +38,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = getStudentIdx($data->id, $data->pw);
+            $studentIdx = intval(getStudentIdx($data->id, $data->pw));
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
@@ -73,7 +73,6 @@ try {
             }
 
             if (!is_integer($studentIdx)) {
-                $res->check = getStudentIdx($data->id, $data->pw);
                 $res->isSuccess = FALSE;
                 $res->code = 421;
                 $res->message = "studentIdx는 Int 이여야 합니다";
