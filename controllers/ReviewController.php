@@ -73,6 +73,7 @@ try {
             }
 
             if (!is_integer($studentIdx)) {
+                $res->check = getStudentIdx($data->id, $data->pw);
                 $res->isSuccess = FALSE;
                 $res->code = 421;
                 $res->message = "studentIdx는 Int 이여야 합니다";
