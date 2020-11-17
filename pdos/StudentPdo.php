@@ -12,7 +12,7 @@ function getStudentIdx($id, $pw) {
     $st = null;
     $pdo = null;
 
-    return intval($res[0]);
+    return $res[0];
 }
 function createStudent($id,$password,$name,$grade,$className,$bday){
     $pdo = pdoSqlConnect();

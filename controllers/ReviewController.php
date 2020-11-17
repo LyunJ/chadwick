@@ -118,9 +118,7 @@ try {
             }
 
             if(isReviewExists($studentIdx, $menuIdx)) {
-                $res->dataId = $data->id;
-                $res->dataPwd = $data->pw;
-                $res->studentIdx = $studentIdx;
+                $res->studentIdx = getStudentIdx($data->id, $data->pw);
                 $res->isReview = isReviewExists($studentIdx, $menuIdx);
                 $res->isSuccess = FALSE;
                 $res->code = 461;
