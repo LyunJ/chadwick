@@ -196,8 +196,8 @@ function isValidPassword($password) {
     return 0;
 }
 
-function isValidDate($bday) {
-    if(preg_match("/^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/", $bday)) {
+function isValidDate($date) {
+    if(preg_match("/^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/", $date)) {
         return 1;
     }
     return 0;

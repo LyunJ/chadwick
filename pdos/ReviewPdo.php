@@ -1,13 +1,13 @@
 <?php
 
-function createReview($menuIdx, $studentIdx, $score, $content)
+function createReview($menuIdx, $date, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "INSERT INTO review (menuIdx, studentIdx, score, content) VALUES (?, ?, ?, ?);";
+    $query = "INSERT INTO review (menuIdx, createdAt, studentIdx, score, content) VALUES (?, ?, ?, ?, ?);";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx, $studentIdx, $score, $content]);
+    $st->execute([$menuIdx, $date, $studentIdx, $score, $content]);
 
     $recruitId = $pdo->lastInsertId();
     $st = null;
@@ -64,14 +64,14 @@ function isReviewExists($studentIdx, $menuIdx)
     return intval($res[0]["exist"]);
 }
 
-function modifyReview($menuIdx, $studentIdx, $score, $content)
+function modifyReview($menuIdx, $date, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "UPDATE review SET score = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
+    $query = "UPDATE review SET score = ?, createdAt = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$score, $content, $studentIdx, $menuIdx]);
+    $st->execute([$score, $date, $content, $studentIdx, $menuIdx]);
 
     $st = null;
     $pdo = null;

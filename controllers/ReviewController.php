@@ -40,6 +40,7 @@ try {
 
             $studentIdx = intval(getStudentIdx($data->id, $data->pw));
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $date = isset($req->date) ? $req->date : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
 
@@ -68,6 +69,13 @@ try {
                 $res->isSuccess = FALSE;
                 $res->code = 414;
                 $res->message = "content가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($date == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 415;
+                $res->message = "date가 null 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -100,11 +108,25 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
+            if (!is_string($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 425;
+                $res->message = "date는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
 
             if(!isValidScore($score)) {
                 $res->isSuccess = FALSE;
                 $res->code = 441;
                 $res->message = "score는 0~5 사이 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(!isValidDate($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 442;
+                $res->message = "date는 yyyy-mm-dd 이여야 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -125,7 +147,7 @@ try {
                 break;
             }
 
-            createReview($menuIdx, $studentIdx, $score, $content);
+            createReview($menuIdx, $date, $studentIdx, $score, $content);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "리뷰 작성 성공";
@@ -149,6 +171,7 @@ try {
 
             $studentIdx = getStudentIdx($data->id, $data->pw);
             $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $date = isset($req->date) ? $req->date : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
 
@@ -177,6 +200,13 @@ try {
                 $res->isSuccess = FALSE;
                 $res->code = 414;
                 $res->message = "content가 null 입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if ($date == null) {
+                $res->isSuccess = FALSE;
+                $res->code = 415;
+                $res->message = "date가 null 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -209,11 +239,25 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
+            if (!is_string($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 425;
+                $res->message = "date는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
 
             if(!isValidScore($score)) {
                 $res->isSuccess = FALSE;
                 $res->code = 441;
                 $res->message = "score는 0~5 사이 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
+            if(!isValidDate($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 442;
+                $res->message = "date는 yyyy-mm-dd 이여야 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -234,7 +278,7 @@ try {
                 break;
             }
 
-            modifyReview($menuIdx, $studentIdx, $score, $content);
+            modifyReview($menuIdx, $date, $studentIdx, $score, $content);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "리뷰 수정 성공";
