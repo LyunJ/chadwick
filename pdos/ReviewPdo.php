@@ -110,13 +110,13 @@ function isMenuExistsByDate($menuIdx, $date)
 }
 
 
-function isReviewExistsByMenu($menuIdx)
+function isReviewExistsByMenu($foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT EXISTS(SELECT * FROM review WHERE menuIdx = ? and isDeleted = 'N') AS exist;";
+    $query = "SELECT EXISTS(SELECT * FROM review WHERE foodIdx = ? and date = ? and isDeleted = 'N') AS exist;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx]);
+    $st->execute([$foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
@@ -126,7 +126,7 @@ function isReviewExistsByMenu($menuIdx)
     return intval($res[0]["exist"]);
 }
 
-function getReview($menuIdx)
+function getReview($foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
     $query = "select reviewIdx, score, content,
@@ -139,10 +139,10 @@ function getReview($menuIdx)
                                then concat(timestampdiff(minute , createdAt, now()),'분전')
                            end as createdAt
                 from review
-                where menuIdx = ?;";
+                where foodIdx = ? and date = ? and isDeleted = 'N';";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx]);
+    $st->execute([$foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
