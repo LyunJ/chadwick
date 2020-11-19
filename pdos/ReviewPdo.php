@@ -165,5 +165,5 @@ function getReviewTotal($foodIdx, $date)
     $st = null;
     $pdo = null;
 
-    return $res[0];
+    return $res[0]['totalScore'];
 }
