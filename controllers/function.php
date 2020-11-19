@@ -218,6 +218,15 @@ function isValidGrade($grade){
     }
 }
 
+function isValidFood($foodIdx){
+    if($foodIdx == 1 || $foodIdx == 2 || $foodIdx == 3){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+
 # Valid Functions End
 
 # HTTP STATUS RESPONSE START

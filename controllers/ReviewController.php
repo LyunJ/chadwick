@@ -38,7 +38,7 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = intval(getStudentIdx($data->id, $data->pw));
+            $studentIdx = getStudentIdx($data->id, $data->pw);
             $foodIdx = isset($req->foodIdx) ? $req->foodIdx : null;
             $date = isset($req->date) ? $req->date : null;
             $score = isset($req->score) ? $req->score : null;
