@@ -315,10 +315,10 @@ try {
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
             $studentIdx = getStudentIdx($data->id, $data->pw);
-            $foodIdx = $_GET["foodIdx"];
-            $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             $date = $_GET["date"];
             $date = isset($date) ? $date : null;
+            $foodIdx = $_GET["foodIdx"];
+            $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
 
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
@@ -364,6 +364,13 @@ try {
                 break;
             }
 
+            if(!isValidDate($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 442;
+                $res->message = "date는 yyyy-mm-dd 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
             if(!isValidFood($foodIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 443;
