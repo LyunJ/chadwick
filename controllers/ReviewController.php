@@ -51,7 +51,7 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if ($menuIdx == null) {
+            if ($foodIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 412;
                 $res->message = "foodIdx가 null 입니다";
@@ -87,7 +87,7 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if (!is_integer($menuIdx)) {
+            if (!is_integer($foodIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 422;
                 $res->message = "foodIdx는 Int 이여야 합니다";
