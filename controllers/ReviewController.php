@@ -318,7 +318,7 @@ try {
             $foodIdx = $_GET["foodIdx"];
             $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             $date = $_GET["date"];
-            $date = isset($date) ? $date : null;
+            $date = isset($date) ? strval($date) : null;
 
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
