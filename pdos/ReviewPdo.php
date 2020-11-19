@@ -152,13 +152,13 @@ function getReview($foodIdx, $date)
     return $res;
 }
 
-function getReviewTotal($menuIdx)
+function getReviewTotal($foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
-    $query = "select AVG(score) as totalScore from review where menuIdx = ? group by menuIdx;";
+    $query = "select AVG(score) as totalScore from review where foodIdx = ? and date = ? and isDeleted = 'N' group by foodIdx, date;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx]);
+    $st->execute([$foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
