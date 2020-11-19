@@ -315,10 +315,10 @@ try {
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
             $studentIdx = getStudentIdx($data->id, $data->pw);
-            $date = $_GET["date"];
-            $date = isset($date) ? $date : null;
             $foodIdx = $_GET["foodIdx"];
             $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
+            $date = $_GET["date"];
+            $date = isset($date) ? $date : null;
 
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
@@ -356,6 +356,13 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
+            if (!is_string($date)) {
+                $res->isSuccess = FALSE;
+                $res->code = 423;
+                $res->message = "date는 String 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
 
             if(!isValidDate($date)) {
                 $res->isSuccess = FALSE;
@@ -380,7 +387,7 @@ try {
                 break;
             }
 
-            if(!isReviewExistsByFood($foodIdx, $date)) {
+            if(!isMenuExistsByDate($foodIdx, $date)) {
                 $res->isSuccess = FALSE;
                 $res->code = 481;
                 $res->message = "조회 할 review가 없습니다";
