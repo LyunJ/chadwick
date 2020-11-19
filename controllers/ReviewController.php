@@ -320,12 +320,6 @@ try {
             $date = $_GET["date"];
             $date = isset($date) ? strval($date) : null;
 
-            $year = substr($date, 0, 4);
-            $month = substr($date, 4, 2);
-            $day = substr($date, 6, 2);
-
-            $date = $year.'-'.$month.'-'.$day;
-
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 411;
@@ -370,13 +364,6 @@ try {
                 break;
             }
 
-            if(!isValidDate($date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 441;
-                $res->message = "date는 yyyy-mm-dd 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
             if(!isValidFood($foodIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 443;
