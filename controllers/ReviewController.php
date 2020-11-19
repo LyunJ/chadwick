@@ -356,13 +356,6 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
-            if (!is_string($date)) {
-                $res->isSuccess = FALSE;
-                $res->code = 423;
-                $res->message = "date는 String 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
 
             if(!isValidDate($date)) {
                 $res->isSuccess = FALSE;
