@@ -93,13 +93,13 @@ function modifyReview($foodIdx, $date, $studentIdx, $score, $content)
     $pdo = null;
 }
 
-function isMenuExistsByDate($menuIdx, $date)
+function isMenuExistsByDate($foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT EXISTS(SELECT * FROM review WHERE menuIdx = ? and date = ? and isDeleted = 'N') AS exist;";
+    $query = "SELECT EXISTS(SELECT * FROM review WHERE foodIdx = ? and date = ? and isDeleted = 'N') AS exist;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx, $date]);
+    $st->execute([$foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
