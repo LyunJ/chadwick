@@ -39,7 +39,7 @@ try {
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
             $studentIdx = intval(getStudentIdx($data->id, $data->pw));
-            $menuIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $foodIdx = isset($req->foodIdx) ? $req->foodIdx : null;
             $date = isset($req->date) ? $req->date : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
@@ -54,7 +54,7 @@ try {
             if ($menuIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 412;
-                $res->message = "menuIdx가 null 입니다";
+                $res->message = "foodIdx가 null 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -90,7 +90,7 @@ try {
             if (!is_integer($menuIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 422;
-                $res->message = "menuIdx는 Int 이여야 합니다";
+                $res->message = "foodIdx는 Int 이여야 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -130,24 +130,31 @@ try {
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
+            if(!isValidFood($foodIdx)) {
+                $res->isSuccess = FALSE;
+                $res->code = 443;
+                $res->message = "foodIdx는 1, 2, 3 이여야 합니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                break;
+            }
 
-            if(!isMenuExists($menuIdx)) {
+            if(!isFoodExists($foodIdx, $date)) {
                 $res->isSuccess = FALSE;
                 $res->code = 452;
-                $res->message = "존재하지 않은 menuIdx 입니다";
+                $res->message = "foodIdx의 date에 대한 메뉴가 존재하지 않습니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
 
-            if(isReviewExists($studentIdx, $menuIdx)) {
+            if(isReviewExists($studentIdx, $foodIdx, $date)) {
                 $res->isSuccess = FALSE;
                 $res->code = 461;
-                $res->message = "해당 studenIdx로 해당 menuIdx에 대한 리뷰가 이미 존재 합니다";
+                $res->message = "해당 studenIdx로 해당 foodIdx의 date에 대한 리뷰가 이미 존재 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
 
-            createReview($menuIdx, $date, $studentIdx, $score, $content);
+            createReview($foodIdx, $date, $studentIdx, $score, $content);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "리뷰 작성 성공";
@@ -278,7 +285,7 @@ try {
                 break;
             }
 
-            modifyReview($menuIdx, $date, $studentIdx, $score, $content);
+            modifyReview($menuIdx, $studentIdx, $score, $content);
             $res->isSuccess = TRUE;
             $res->code = 200;
             $res->message = "리뷰 수정 성공";

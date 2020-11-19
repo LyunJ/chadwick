@@ -1,13 +1,13 @@
 <?php
 
-function createReview($menuIdx, $date, $studentIdx, $score, $content)
+function createReview($foodIdx, $date, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "INSERT INTO review (menuIdx, createdAt, studentIdx, score, content) VALUES (?, ?, ?, ?, ?);";
+    $query = "INSERT INTO review (foodIdx, date, studentIdx, score, content) VALUES (?, ?, ?, ?, ?);";
 
     $st = $pdo->prepare($query);
-    $st->execute([$menuIdx, $date, $studentIdx, $score, $content]);
+    $st->execute([$foodIdx, $date, $studentIdx, $score, $content]);
 
     $recruitId = $pdo->lastInsertId();
     $st = null;
@@ -23,6 +23,22 @@ function isMenuExists($menuIdx)
 
     $st = $pdo->prepare($query);
     $st->execute([$menuIdx]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st = null;
+    $pdo = null;
+
+    return intval($res[0]["exist"]);
+}
+
+function isFoodExists($foodIdx, $date)
+{
+    $pdo = pdoSqlConnect();
+    $query = "SELECT EXISTS(SELECT * FROM menu WHERE foodIdx = ?  and date = ? and isDeleted = 'N') AS exist;";
+
+    $st = $pdo->prepare($query);
+    $st->execute([$foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
@@ -48,13 +64,13 @@ function isDateExists($date)
     return intval($res[0]["exist"]);
 }
 
-function isReviewExists($studentIdx, $menuIdx)
+function isReviewExists($studentIdx, $foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT EXISTS(SELECT * FROM review WHERE studentIdx = ? and menuIdx = ? and isDeleted = 'N') AS exist;";
+    $query = "SELECT EXISTS(SELECT * FROM review WHERE studentIdx = ? and foodIdx = ? and date = ? and isDeleted = 'N') AS exist;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$studentIdx, $menuIdx]);
+    $st->execute([$studentIdx, $foodIdx, $date]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
     $res = $st->fetchAll();
 
@@ -64,14 +80,14 @@ function isReviewExists($studentIdx, $menuIdx)
     return intval($res[0]["exist"]);
 }
 
-function modifyReview($menuIdx, $date, $studentIdx, $score, $content)
+function modifyReview($menuIdx, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "UPDATE review SET score = ?, createdAt = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
+    $query = "UPDATE review SET score = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$score, $date, $content, $studentIdx, $menuIdx]);
+    $st->execute([$score, $content, $studentIdx, $menuIdx]);
 
     $st = null;
     $pdo = null;
