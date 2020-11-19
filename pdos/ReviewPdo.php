@@ -80,14 +80,14 @@ function isReviewExists($studentIdx, $foodIdx, $date)
     return intval($res[0]["exist"]);
 }
 
-function modifyReview($menuIdx, $studentIdx, $score, $content)
+function modifyReview($foodIdx, $date, $studentIdx, $score, $content)
 {
     $pdo = pdoSqlConnect();
 
-    $query = "UPDATE review SET score = ?, content = ? WHERE studentIdx = ? and menuIdx = ?;";
+    $query = "UPDATE review SET score = ?, content = ? WHERE studentIdx = ? and foodIdx = ? and date = ?;";
 
     $st = $pdo->prepare($query);
-    $st->execute([$score, $content, $studentIdx, $menuIdx]);
+    $st->execute([$score, $content, $studentIdx, $foodIdx, $date]);
 
     $st = null;
     $pdo = null;
