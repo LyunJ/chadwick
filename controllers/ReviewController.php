@@ -320,6 +320,12 @@ try {
             $date = $_GET["date"];
             $date = isset($date) ? strval($date) : null;
 
+            $year = substr($date, 0, 4);
+            $month = substr($date, 4, 2);
+            $day = substr($date, 6, 2);
+
+            $date = $year.'-'.$month.'-'.$day;
+
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 411;
