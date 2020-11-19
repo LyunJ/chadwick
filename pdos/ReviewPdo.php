@@ -35,7 +35,7 @@ function isMenuExists($menuIdx)
 function isFoodExists($foodIdx, $date)
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT EXISTS(SELECT * FROM menu WHERE foodIdx = ?  and date = ? and isDeleted = 'N') AS exist;";
+    $query = "SELECT EXISTS(SELECT * FROM MenuTable WHERE foodIdx = ?  and date = ? and isDeleted = 'N') AS exist;";
 
     $st = $pdo->prepare($query);
     $st->execute([$foodIdx, $date]);
