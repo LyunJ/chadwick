@@ -177,7 +177,7 @@ try {
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
             $studentIdx = getStudentIdx($data->id, $data->pw);
-            $foodIdx = isset($req->menuIdx) ? $req->menuIdx : null;
+            $foodIdx = isset($req->foodIdx) ? $req->foodIdx : null;
             $date = isset($req->date) ? $req->date : null;
             $score = isset($req->score) ? $req->score : null;
             $content = isset($req->content) ? $req->content : null;
