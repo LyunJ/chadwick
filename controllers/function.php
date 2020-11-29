@@ -48,6 +48,8 @@ function isValidHeader($jwt,$key){
         if(isValidTeacher($data->id, $data->pw) == 1){
             return true;
         }else if(isValidStudent($data->id, $data->pw) == 1){
+            return true;
+        } else {
             return false;
         }
     } catch (\Exception $e) {
