@@ -303,10 +303,10 @@ try {
             http_response_code(200);
 
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if (!isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
+            if (!isValidTeacherJWT($jwt,JWT_SECRET_KEY) && !isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
-                $res->message = "존재하지 않은 student 입니다";
+                $res->message = "존재하지 않은 idx 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 addErrorLogs($errorLogs, $res, $req);
                 return;
@@ -323,7 +323,7 @@ try {
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 411;
-                $res->message = "studentIdx가 null 입니다";
+                $res->message = "idx가 null 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -345,7 +345,7 @@ try {
             if (!is_integer($studentIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 421;
-                $res->message = "studentIdx는 Int 이여야 합니다";
+                $res->message = "idx는 Int 이여야 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -406,10 +406,10 @@ try {
             http_response_code(200);
 
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if (!isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
+            if (!isValidTeacherJWT($jwt,JWT_SECRET_KEY) && !isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
-                $res->message = "존재하지 않은 student 입니다";
+                $res->message = "존재하지 않은 idx 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 addErrorLogs($errorLogs, $res, $req);
                 return;
@@ -426,7 +426,7 @@ try {
             if ($studentIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 411;
-                $res->message = "studentIdx가 null 입니다";
+                $res->message = "idx가 null 입니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
@@ -448,7 +448,7 @@ try {
             if (!is_integer($studentIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 421;
-                $res->message = "studentIdx는 Int 이여야 합니다";
+                $res->message = "idx는 Int 이여야 합니다";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 break;
             }
