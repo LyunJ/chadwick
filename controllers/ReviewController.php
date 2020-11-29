@@ -303,7 +303,7 @@ try {
             http_response_code(200);
 
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if (!isValidTeacherJWT($jwt,JWT_SECRET_KEY) && !isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
+            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
                 $res->message = "존재하지 않은 idx 입니다";
@@ -314,19 +314,11 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = getStudentIdx($data->id, $data->pw);
             $foodIdx = $_GET["foodIdx"];
             $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             $date = $_GET["date"];
             $date = isset($date) ? $date : null;
 
-            if ($studentIdx == null) {
-                $res->isSuccess = FALSE;
-                $res->code = 411;
-                $res->message = "idx가 null 입니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
             if ($foodIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 412;
@@ -342,13 +334,6 @@ try {
                 break;
             }
 
-            if (!is_integer($studentIdx)) {
-                $res->isSuccess = FALSE;
-                $res->code = 421;
-                $res->message = "idx는 Int 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
             if (!is_integer($foodIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 422;
@@ -406,7 +391,7 @@ try {
             http_response_code(200);
 
             $jwt = $_SERVER["HTTP_X_ACCESS_TOKEN"];
-            if (!isValidTeacherJWT($jwt,JWT_SECRET_KEY) && !isValidStudentHeader($jwt, JWT_SECRET_KEY)) {
+            if (!isValidHeader($jwt, JWT_SECRET_KEY)) {
                 $res->isSuccess = FALSE;
                 $res->code = 451;
                 $res->message = "존재하지 않은 idx 입니다";
@@ -417,19 +402,11 @@ try {
 
             $data = getDataByJWToken($jwt, JWT_SECRET_KEY);
 
-            $studentIdx = getStudentIdx($data->id, $data->pw);
             $foodIdx = $_GET["foodIdx"];
             $foodIdx = isset($foodIdx) ? intval($foodIdx) : null;
             $date = $_GET["date"];
             $date = isset($date) ? $date : null;
 
-            if ($studentIdx == null) {
-                $res->isSuccess = FALSE;
-                $res->code = 411;
-                $res->message = "idx가 null 입니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
             if ($foodIdx == null) {
                 $res->isSuccess = FALSE;
                 $res->code = 412;
@@ -445,13 +422,6 @@ try {
                 break;
             }
 
-            if (!is_integer($studentIdx)) {
-                $res->isSuccess = FALSE;
-                $res->code = 421;
-                $res->message = "idx는 Int 이여야 합니다";
-                echo json_encode($res, JSON_NUMERIC_CHECK);
-                break;
-            }
             if (!is_integer($foodIdx)) {
                 $res->isSuccess = FALSE;
                 $res->code = 422;

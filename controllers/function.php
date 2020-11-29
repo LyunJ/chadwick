@@ -42,6 +42,19 @@ function isValidTeacherJWT($jwt,$key){
     }
 }
 
+function isValidHeader($jwt,$key){
+    try {
+        $data = getDataByJWToken($jwt, $key);
+        if(isValidTeacher($data->id, $data->pw) == 1){
+            return true;
+        }else if(isValidStudent($data->id, $data->pw) == 1){
+            return false;
+        }
+    } catch (\Exception $e) {
+        return false;
+    }
+}
+
 function sendFcm($fcmToken, $data, $key, $deviceType)
 {
     $url = 'https://fcm.googleapis.com/fcm/send';
